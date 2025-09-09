@@ -1,8 +1,18 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Bot, Globe, Smartphone, TrendingUp, Share2, Palette } from 'lucide-react';
+import BookingForm from './BookingForm';
 
 const Services = () => {
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<string>('');
+
+  const handleLearnMore = (serviceTitle: string) => {
+    setSelectedService(serviceTitle);
+    setBookingOpen(true);
+  };
+
   const services = [
     {
       icon: Bot,
@@ -79,7 +89,12 @@ const Services = () => {
                   </li>
                 ))}
               </ul>
-              <Button variant="outline" size="sm" className="w-full">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full"
+                onClick={() => handleLearnMore(service.title)}
+              >
                 Learn More
               </Button>
             </Card>
@@ -88,11 +103,17 @@ const Services = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <Button variant="gradient" size="lg">
+          <Button variant="gradient" size="lg" onClick={() => handleLearnMore('General Consultation')}>
             Discuss Your Project
           </Button>
         </div>
       </div>
+
+      <BookingForm 
+        open={bookingOpen} 
+        onOpenChange={setBookingOpen} 
+        serviceTitle={selectedService}
+      />
     </section>
   );
 };
